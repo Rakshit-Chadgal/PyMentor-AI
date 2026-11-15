@@ -1,0 +1,62 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: pymentor
+      POSTGRES_PASSWORD: pymentor_dev_password
+      POSTGRES_DB: pymentor
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pymentor"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  executor:
+    build:
+      context: ./executor
+    environment:
+      EXECUTION__INTERNAL_TOKEN: ${EXECUTION__INTERNAL_TOKEN:-dev-executor-token-change-in-prod}
+    networks:
+      - internal
+
+  api:
+    build:
+      context: ./backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      APP__ENV: development
+      DATABASE__URL: postgresql+asyncpg://pymentor:pymentor_dev_password@postgres:5432/pymentor
+      REDIS_URL: redis://redis:6379/0
+      AI__API_KEY: ${GEMINI_API_KEY:-}
+      EXECUTION__URL: http://executor:8080
+      EXECUTION__INTERNAL_TOKEN: ${EXECUTION__INTERNAL_TOKEN:-dev-executor-token-change-in-prod}
+    ports:
+      - "127.0.0.1:8000:8000"
+    networks:
+      - default
+      - internal
+
+volumes:
+  pg_data:
+
+networks:
+  internal:
+    internal: true

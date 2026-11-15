@@ -1,0 +1,16 @@
+[project]
+name = "pymentor-executor"
+version = "1.0.0"
+description = "Isolated Python 3 sandbox execution service for PyMentor AI"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "pydantic>=2.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "httpx>=0.27.2",
+]

@@ -1,0 +1,30 @@
+{
+  "defaultAction": "SCMP_ACT_ALLOW",
+  "syscalls": [
+    {
+      "names": [
+        "acct",
+        "add_key",
+        "bpf",
+        "chroot",
+        "clock_adjtime",
+        "delete_module",
+        "init_module",
+        "finit_module",
+        "kexec_load",
+        "kexec_file_load",
+        "mount",
+        "umount2",
+        "pivot_root",
+        "ptrace",
+        "reboot",
+        "setns",
+        "swapon",
+        "swapoff",
+        "unshare",
+        "userfaultfd"
+      ],
+      "action": "SCMP_ACT_ERRNO"
+    }
+  ]
+}

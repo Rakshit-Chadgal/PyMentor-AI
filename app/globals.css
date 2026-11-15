@@ -1,0 +1,117 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --paper: #F6F2EA;
+  --surface: #FFFDF8;
+  --surface-subtle: #EFE9DD;
+  --ink: #16180F;
+  --muted: #5A5F55;
+  --line: #DCD5C7;
+  --accent: #1E5B45;
+  --accent-hover: #174836;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E5EFEA;
+  --warn: #8A4B12;
+  --warn-soft: #F7EFE4;
+  --danger: #8C2F2F;
+  --danger-soft: #F9EBEB;
+  --code-bg: #1B1D1A;
+  --code-surface: #232621;
+  --code-ink: #F2EEE3;
+  --code-muted: #9BA294;
+}
+
+.dark {
+  --paper: #12140F;
+  --surface: #191C16;
+  --surface-subtle: #21251D;
+  --ink: #F2EEE3;
+  --muted: #A8AE9E;
+  --line: #2C3128;
+  --accent: #7FBF9E;
+  --accent-hover: #94CEB0;
+  --accent-ink: #10231A;
+  --accent-soft: #1B2C23;
+  --warn: #E0B36A;
+  --warn-soft: #292216;
+  --danger: #F0A3A3;
+  --danger-soft: #2C1B1B;
+  --code-bg: #0C0E0B;
+  --code-surface: #141712;
+  --code-ink: #F2EEE3;
+  --code-muted: #8E9687;
+}
+
+@layer base {
+  html {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display), ui-serif, Georgia, serif;
+  }
+
+  code, pre, kbd, samp, .font-mono {
+    font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.markdown-body p + p {
+  margin-top: 0.75rem;
+}
+
+.markdown-body ul, .markdown-body ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1.25rem;
+}
+
+.markdown-body ul {
+  list-style-type: disc;
+}
+
+.markdown-body ol {
+  list-style-type: decimal;
+}
+
+.markdown-body li + li {
+  margin-top: 0.25rem;
+}
+
+.markdown-body code:not(pre code) {
+  background-color: var(--surface-subtle);
+  color: var(--ink);
+  padding: 0.125rem 0.35rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  border: 1px solid var(--line);
+}

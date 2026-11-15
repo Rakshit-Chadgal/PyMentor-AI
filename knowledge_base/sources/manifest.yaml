@@ -1,0 +1,30 @@
+version: "1.0"
+sources:
+  - id: pymentor-fundamentals-v1
+    title: PyMentor Curated Python 3 Fundamentals
+    source_url: https://docs.python.org/3/tutorial/
+    license: PSF-2.0 / Project Authored
+    license_url: https://docs.python.org/3/license.html
+    retrieved_at: "2026-11-14T00:00:00Z"
+    language: en
+    topics:
+      - Variables & Types
+      - Strings & Slicing
+      - Lists & Tuples
+      - Dictionaries & Sets
+      - Functions & Scope
+    level: beginner
+    file: raw/python_fundamentals.md
+
+  - id: pymentor-debugging-v1
+    title: PyMentor Python Debugging & Tracebacks Guide
+    source_url: https://docs.python.org/3/tutorial/errors.html
+    license: PSF-2.0 / Project Authored
+    license_url: https://docs.python.org/3/license.html
+    retrieved_at: "2026-11-14T00:00:00Z"
+    language: en
+    topics:
+      - Error Handling & Debugging
+      - Recursion
+    level: intermediate
+    file: raw/debugging_patterns.md

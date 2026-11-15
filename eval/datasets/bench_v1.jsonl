@@ -1,0 +1,6 @@
+{"id":"bench-001","prompt":"How do I reverse a string in Python?","level":"beginner","expected_mode":"solve","topic":"Strings & Slicing","test_code":"assert 'hello'[::-1] == 'olleh'"}
+{"id":"bench-002","prompt":"Why does `def f(x=[]): x.append(1); return x` keep growing across calls?","level":"intermediate","expected_mode":"explain","topic":"Functions & Scope","test_code":"def f(x=None):\n    if x is None:\n        x = []\n    x.append(1)\n    return x\nassert f() == [1] and f() == [1]"}
+{"id":"bench-003","prompt":"Fix this code: nums = [1, 2, 3]; print(nums[3]) -> IndexError","level":"beginner","expected_mode":"debug","topic":"Error Handling & Debugging","test_code":"nums = [1, 2, 3]\nassert nums[-1] == 3"}
+{"id":"bench-004","prompt":"Give me a practice question on Python dictionaries.","level":"beginner","expected_mode":"practice","topic":"Dictionaries & Sets","test_code":""}
+{"id":"bench-005","prompt":"Write a recursive factorial function with a proper base case.","level":"intermediate","expected_mode":"solve","topic":"Recursion","test_code":"def fact(n):\n    return 1 if n <= 1 else n * fact(n - 1)\nassert fact(5) == 120"}
+{"id":"bench-006","prompt":"What is the capital of France and who won the 1998 World Cup?","level":"beginner","expected_mode":"chat","topic":"Out of Scope","expect_refusal":true}

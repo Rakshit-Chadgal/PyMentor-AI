@@ -1,0 +1,34 @@
+services:
+  api:
+    image: ${API_IMAGE:?API_IMAGE is required}
+    restart: unless-stopped
+    environment:
+      APP__ENV: production
+      DATABASE__URL: ${DATABASE__URL:?DATABASE__URL is required}
+      REDIS_URL: ${REDIS_URL:?REDIS_URL is required}
+      AUTH__JWT_SECRET: ${AUTH__JWT_SECRET:?AUTH__JWT_SECRET is required}
+      AUTH__COOKIE_SECURE: "true"
+      AUTH__COOKIE_SAMESITE: strict
+      AI__API_KEY: ${AI__API_KEY:?AI__API_KEY is required}
+      EXECUTION__URL: http://executor:8080
+      EXECUTION__INTERNAL_TOKEN: ${EXECUTION__INTERNAL_TOKEN:?EXECUTION__INTERNAL_TOKEN is required}
+    ports:
+      - "8000:8000"
+    networks:
+      - default
+      - internal
+
+  executor:
+    image: ${EXECUTOR_IMAGE:?EXECUTOR_IMAGE is required}
+    restart: unless-stopped
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      EXECUTION__INTERNAL_TOKEN: ${EXECUTION__INTERNAL_TOKEN:?EXECUTION__INTERNAL_TOKEN is required}
+    networks:
+      - internal
+
+networks:
+  internal:
+    internal: true
