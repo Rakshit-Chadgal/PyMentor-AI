@@ -1,7 +1,9 @@
 from datetime import datetime, timezone
 from uuid import UUID, uuid4
 
-from sqlalchemy import DateTime, ForeignKey, Index, Integer, String, Text
+from pgvector.sqlalchemy import Vector
+from sqlalchemy import Computed, DateTime, ForeignKey, Index, Integer, JSON, String, Text
+from sqlalchemy.dialects.postgresql import TSVECTOR
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.session import Base
@@ -43,8 +45,26 @@ class KnowledgeChunk(Base):
     topic: Mapped[str] = mapped_column(String(120), nullable=False)
     level: Mapped[str] = mapped_column(String(24), nullable=False, default="beginner")
     token_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    content_tsv: Mapped[str | None] = mapped_column(
+        TSVECTOR().with_variant(Text(), "sqlite"),
+        Computed("to_tsvector('english', content)", persisted=True),
+        nullable=True,
+    )
+    embedding: Mapped[list[float] | None] = mapped_column(
+        Vector(768).with_variant(JSON(), "sqlite"),
+        nullable=True,
+    )
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utcnow)
 
     document: Mapped[KnowledgeDocument] = relationship(back_populates="chunks")
 
-    __table_args__ = (Index("ix_knowledge_chunks_topic_level", "topic", "level"),)
+    __table_args__ = (
+        Index("ix_knowledge_chunks_topic_level", "topic", "level"),
+        Index("ix_knowledge_chunks_tsv", "content_tsv", postgresql_using="gin"),
+        Index(
+            "ix_knowledge_chunks_embedding",
+            "embedding",
+            postgresql_using="hnsw",
+            postgresql_ops={"embedding": "vector_cosine_ops"},
+        ),
+    )
